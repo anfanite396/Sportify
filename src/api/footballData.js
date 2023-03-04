@@ -6,7 +6,7 @@ export const fetchMatches = async (date = null) => {
     method : 'GET',
     url: 'https://v3.football.api-sports.io/leagues',
     headers : {
-      'x-rapidapi-key' : 'c2d65f440c37899e90e012fc9f138af1',
+      'x-rapidapi-key' : 'c2d65f440c37899e90e012fc9f138af2',
       'x-rapidapi-host' : 'v3.football.api-sports.io'
     }
   };
