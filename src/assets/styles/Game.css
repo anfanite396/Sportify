@@ -34,7 +34,7 @@
   width: 43%;
   padding: 10px 0;
   text-align: left;
-  color: #fff;
+  color: #00b100;
 }
 
 .away-team {
@@ -66,6 +66,7 @@
   .home-team,
   .away-team {
     float: left;
+    color: #00b100;
     text-align: left;
     padding-left: 10px;
     display: block;

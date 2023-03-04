@@ -1,25 +1,28 @@
-import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFutbol, faCalendarAlt, faBackward } from '@fortawesome/free-solid-svg-icons';
+import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendarAlt,
+  faBackward,
+} from "@fortawesome/free-solid-svg-icons";
 
-import Calendar from 'react-calendar';
-import './assets/styles/Calendar.css';
+import Calendar from "react-calendar";
+import "./assets/styles/Calendar.css";
 
-import League from './components/League';
-import Loading from './components/Loading';
-import DateNavBarBtn from './components/DateNavBarBtn';
-import TickClock from './components/TickClock';
+import League from "./components/League";
+import Loading from "./components/Loading";
+import DateNavBarBtn from "./components/DateNavBarBtn";
+import TickClock from "./components/TickClock";
 import {
   rearrangeMatches,
   getDayFromToday,
   getDateFromToday,
   isToday,
   getGameDay,
-  formatDateForUrl
-} from './utilities/utilities';
-import reloader from './assets/images/reloader-24.gif';
-import Footer from './components/Footer';
-import { fetchMatches } from './api/footballData';
+  formatDateForUrl,
+} from "./utilities/utilities";
+import reloader from "./assets/images/reloader-24.gif";
+import Footer from "./components/Footer";
+import { fetchMatches } from "./api/footballData";
 
 export default class App extends Component {
   constructor() {
@@ -31,7 +34,7 @@ export default class App extends Component {
       navBtnId: 0, // possible values (-2, -1, 0 = today, 1, 2)
       calendarDate: new Date(),
       isShowingCalendar: false,
-      usingCalendar: false
+      usingCalendar: false,
     };
     this.calendarRef = React.createRef();
   }
@@ -39,12 +42,12 @@ export default class App extends Component {
   componentDidMount() {
     this.refresh();
     this.TimerID = setInterval(() => this.refresh(), 30000);
-    document.addEventListener('mousedown', this.clickOutsideCalendar);
+    document.addEventListener("mousedown", this.clickOutsideCalendar);
   }
 
   componentWillUnmount() {
     clearInterval(this.TimerID);
-    document.removeEventListener('mousedown', this.clickOutsideCalendar);
+    document.removeEventListener("mousedown", this.clickOutsideCalendar);
   }
 
   refresh = () => {
@@ -56,17 +59,20 @@ export default class App extends Component {
 
     if (resp && resp.status === 200) {
       const { matches } = resp.data;
-      console.log('fetch data Successfully....');
-      console.log(resp.data)
+      console.log("fetch data Successfully....");
+      console.log(resp.data);
       const res = rearrangeMatches(matches);
 
       this.setState({
         leagues: res.leagues,
         error: null,
-        isLoading: false
+        isLoading: false,
       });
     } else {
-      this.setState({ error: 'Network Error! Please, be patient. App will reload.', isLoading: false });
+      this.setState({
+        error: "Network Error! Please, be patient. App will reload.",
+        isLoading: false,
+      });
     }
   };
 
@@ -75,7 +81,8 @@ export default class App extends Component {
     const date = getDateFromToday(A_DAY * dayCount);
     this.fetchLeaguesMatches(date);
     this.setState({
-      isLoading: true, navBtnId: dayCount
+      isLoading: true,
+      navBtnId: dayCount,
     });
 
     if (!isToday(date)) {
@@ -89,7 +96,7 @@ export default class App extends Component {
     const date = formatDateForUrl(newDate);
     this.fetchLeaguesMatches(date);
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
 
     if (!isToday(date)) {
@@ -103,23 +110,23 @@ export default class App extends Component {
     this.setState({
       calendarDate: date,
       isShowingCalendar: false,
-      usingCalendar: true
+      usingCalendar: true,
     });
     this.setNewDateFromCalendar(date);
-  }
+  };
 
   showCalendar = () => {
     this.setState({ isShowingCalendar: true });
-  }
+  };
 
   backToMainview = () => {
     const { navBtnId } = this.state;
 
     this.setState({
-      usingCalendar: false
+      usingCalendar: false,
     });
     this.setNewDate(navBtnId);
-  }
+  };
 
   clickOutsideCalendar = (e) => {
     const { isShowingCalendar } = this.state;
@@ -128,12 +135,17 @@ export default class App extends Component {
     if (this.calendarRef && !this.calendarRef.current.contains(e.target)) {
       this.setState({ isShowingCalendar: false, usingCalendar: false });
     }
-  }
+  };
 
   render() {
     const {
-      leagues, isLoading, error, navBtnId,
-      calendarDate, isShowingCalendar, usingCalendar
+      leagues,
+      isLoading,
+      error,
+      navBtnId,
+      calendarDate,
+      isShowingCalendar,
+      usingCalendar,
     } = this.state;
 
     const leaguesComponent = leagues
@@ -153,13 +165,13 @@ export default class App extends Component {
 
     for (let i = 0; i < 5; i++) {
       const dayId = i - 2;
-      let classes = 'date-nav-bar-btn';
-      classes += navBtnId === dayId ? ' current-day-btn' : '';
+      let classes = "date-nav-bar-btn";
+      classes += navBtnId === dayId ? " current-day-btn" : "";
       navBarBtns.push(
         <DateNavBarBtn
           styleClasses={classes}
           btnClick={() => this.setNewDate(dayId)}
-          date={dayId === 0 ? 'Today' : getDayFromToday(dayId)}
+          date={dayId === 0 ? "Today" : getDayFromToday(dayId)}
           key={i}
         />
       );
@@ -169,10 +181,8 @@ export default class App extends Component {
       <>
         <div className="app-header">
           <span className="app-name">
-            F
-            <FontAwesomeIcon icon={faFutbol} />
-            <FontAwesomeIcon icon={faFutbol} />
-            tball Score
+            <img src= {require('./assets/images/logo.png')} alt="o" height='60%' width='7%'/>
+            Sportify
           </span>
           <TickClock />
         </div>
@@ -186,12 +196,11 @@ export default class App extends Component {
               >
                 <FontAwesomeIcon icon={faBackward} />
               </button>
-              <div className="selected-date">
-                {getGameDay(calendarDate)}
-              </div>
+              <div className="selected-date">{getGameDay(calendarDate)}</div>
             </>
-          ) :
-            <div className="nav-btns">{navBarBtns}</div>}
+          ) : (
+            <div className="nav-btns">{navBarBtns}</div>
+          )}
           <button
             type="button"
             className="date-nav-bar-btn calendar-icon"
@@ -203,17 +212,24 @@ export default class App extends Component {
         {error ? (
           <div className="error">
             {error}
-            {navBtnId === 0 ? <img src={reloader} alt="Reloading App..." /> : ''}
+            {navBtnId === 0 ? (
+              <img src={reloader} alt="Reloading App..." />
+            ) : (
+              ""
+            )}
           </div>
         ) : null}
         <div className="container">
-          {!isLoading ?
-            (leaguesComponent.length && leaguesComponent) || <p className="center-text">No match for today</p> :
-            <Loading />}
+          {!isLoading ? (
+            (leaguesComponent.length && leaguesComponent) || (
+              <p className="center-text">No match for today</p>
+            )
+          ) : (
+            <Loading />
+          )}
         </div>
         <Footer />
-        {isShowingCalendar &&
-        (
+        {isShowingCalendar && (
           <div className="overlay">
             <div ref={this.calendarRef}>
               <Calendar

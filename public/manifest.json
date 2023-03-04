@@ -6,9 +6,6 @@
   "action" : {
       "default_popup" : "index.html"
   },
-  "icons" : {
-      "16" : "logo192.png"
-  },
   "description": "A Sports Tracker",
 
   "permissions" : ["activeTab"]
